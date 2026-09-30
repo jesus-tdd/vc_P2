@@ -1,32 +1,58 @@
 ## Práctica 2. Funciones básicas de OpenCV
 
-### Contenidos
 
-[Aspectos cubiertos](#21-aspectos-cubiertos)  
-[Entrega](#22-entrega)  
+### Tarea 1
 
-### 2.1. Aspectos cubiertos
+> Realiza la cuenta de píxeles blancos por filas (en lugar de por columnas).
+> Determina el valor máximo de píxeles blancos para filas, maxfil, mostrando el número de filas y sus respectivas posiciones, con un número de píxeles blancos mayor o igual que 0.90*maxfil.
+> Resalta con alguna primitiva gráfica en la imagen de Canny las filas que cumplen dicha condición.
 
-La práctica precedente aborda el modo de acceder al valor asociado a un píxel, así como su modificación. Dicha capacidad abre muchísimas posibilidades, existiendo un nutrido grupo de operaciones básicas, habitualmente presentes en bibliotecas como la que utilizaremos a lo largo del curso: [OpenCV](https://opencv.org).
+Los píxeles por fila se han obtenido normalizando la suma de los píxeles de cada fila,
+tal como se demostraba en el ejemplo de clase.
 
-El cuaderno proporcionado para esta práctica (*VC_P2.ipynb*), recuerda en primer término la conversión de formato del espacio de color, tanto la conversión a grises, como a otros espacios de representación, que facilitan determinadas operaciones. Tras repasar el manejo de dichas utilidades, el cuaderno cubre un conjunto de funciones básicas de procesamiento de imágenes disponibles en OpenCV, como son las utilidades ya mencionadas de conversión de espacio de color, añadiendo las de cálculo de bordes o contornos, umbralizado, histogramas, diferencias de fotogramas o sustracción de fondo, etc., además de moestrar alternativas para escribir texto sobre la imagen. Para los ejemplos usando *PILimage* puede ser necesario instalar un nuevo paquete.
+Se han usado funciones de *numpy* para encontrar la fila con más píxeles blancos,
+así como las filas cuya cantidad de píxeles blancos era >=90% con respecto al máximo.
 
-```
-pip install Pillow
-```
+Dichas filas se han representado gráficamente en la imagen resultado de Canny mediante líneas rojas.
+Para esto ha sido necesario convertir la imagen de escala de grises a RGB.
 
-### 2.2. Entrega
 
-A lo largo del cuaderno se propone resolver algunas variaciones sobre el código proporcionado. Además de dichas tareas concretas, en la parte final se propone una tarea con un objetivo más abierto como es plantear una reinterpretación de la parte de procesamiento de la imagen tomando como posible punto de partida alguna de las siguientes instalaciones:
-<!-- - Desarrollar un demostrador que capture las imágenes de la cámara, y les permita *exhibir* lo aprendido en estas dos primeras prácticas ante quienes no cursen la asignatura de Visión por Computador :) . Es por ello que además de poder mostrar la imagen original de la webcam, sea posible de forma interactiva cambiar de modo, incluyendo al menos dos modos diferentes que muestren el resultado de aplicar funciones de OpenCV trabajadas hasta ahora. 
+### Tarea 2
 
-- Plantear una reinterpretación de la parte de procesamiento de la imagen tomando como posible punto de partida alguna de las siguientes instalaciones:-->
+> Aplica umbralizado a la imagen resultante de Sobel (convertida a 8 bits), y posteriormente realiza el conteo por filas y columnas similar al realizado en el ejemplo con la salida de Canny de píxeles no nulos.
+> Calcula el valor máximo de la cuenta por filas y columnas, y determina las filas y columnas por encima del 0.90*máximo.
+> Remarca con alguna primitiva gráfica dichas filas y columnas sobre la imagen del mandril. 
+> Visualiza los resultados obtenidos para la imagen (o una de tu elección) con Canny y Sobel tras umbralizar.
+> ¿Cómo se comparan los resultados obtenidos a partir de Sobel y Canny?
 
-  - [My little piece of privacy](https://www.niklasroy.com/project/88/my-little-piece-of-privacy), por Niklas Roy   
-  - [Messa di voce](https://youtu.be/GfoqiyB1ndE?feature=shared), por Golan Levin y Zachary Lieberman
-  - [Virtual air guitar](https://youtu.be/FIAmyoEpV5c?feature=shared)
+Esta tarea se ha realizado de manera homónima a la anterior, pero cambiando la imagen inicial por el resultado de Sobel.
 
-No olvidar todas las indicaciones dadas en la práctica anterior sobre la entrega: **enlace github** por medio del campus virtual incluyendo **cuaderno(s)** resolviendo las tareas y su correspondiente **README**.
+La conversión a 8 bits de la imagen se ha realizado con *cv2.convertScaleAbs()*.
+Por su parte, el umbral se le ha aplicado con *cv2.threshold()*.
+El umbralizado ha sido binario, quedando en blanco los píxeles superiores a 128 y el resto en negro.
 
-***
-Bajo licencia de Creative Commons Reconocimiento - No Comercial 4.0 Internacional
+En el código se ha incluido el análisis de las columnas del resultado de Canny.
+
+
+### Tarea 3.
+
+> Tras ver los vídeos
+> [My little piece of privacy](https://www.niklasroy.com/project/88/my-little-piece-of-privacy),
+> [Messa di voce](https://youtu.be/GfoqiyB1ndE?feature=shared)
+> y
+> [Virtual air guitar](https://youtu.be/FIAmyoEpV5c?feature=shared)
+> proponer un demostrador reinterpretando la parte de procesamiento de la imagen, 
+> tomando como punto de partida alguna de dichas instalaciones.
+
+Se ha decidido realizar una implementación sencilla del vídeo 
+"[My little piece of privacy](https://www.niklasroy.com/project/88/my-little-piece-of-privacy)".
+
+El movimiento se detecta mediante la diferencia de los fotogramas captados en la webcam.
+
+Las columnas que deben ser tapadas por la cortina se calculan de forma homónima al procedimiento de los apartados anteriores,
+pero usando el valor máximo (más a la derecha) y mínimo (más a la izquierda) en lugar de todos los valores encontrados.
+Esta vez, la cantidad de blanco en la columna debe ser mayor o igual al 20% del máximo, frente al 90% usado en las tareas 1 y 2.
+
+Se trabaja sobre cada fotograma en espejo.
+
+> **Dato curioso**: el nombre de la variable donde se almacena el espejo del fotogrma es "emarf", que es "frame" al revés.
