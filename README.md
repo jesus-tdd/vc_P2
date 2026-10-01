@@ -44,7 +44,10 @@ En el código se ha incluido el análisis de las columnas del resultado de Canny
 > proponer un demostrador reinterpretando la parte de procesamiento de la imagen, 
 > tomando como punto de partida alguna de dichas instalaciones.
 
-Se ha decidido realizar una implementación sencilla del vídeo 
+
+#### Versión 1
+
+Se trata de una implementación sencilla del vídeo 
 "[My little piece of privacy](https://www.niklasroy.com/project/88/my-little-piece-of-privacy)".
 
 El movimiento se detecta mediante la diferencia de los fotogramas captados en la webcam.
@@ -55,4 +58,7 @@ Esta vez, la cantidad de blanco en la columna debe ser mayor o igual al 20% del 
 
 Se trabaja sobre cada fotograma en espejo.
 
-> **Dato curioso**: el nombre de la variable donde se almacena el espejo del fotogrma es "emarf", que es "frame" al revés.
+#### Versión 2
+
+Versión más divertida de lo implementado anteriormente.
+Se calcula el punto medio del movimiento y se mapea la posición al fotograma correspondiente de un gif.
